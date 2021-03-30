@@ -36,4 +36,6 @@ Comandos no Terminal
 ##enviar ao github
 #$ git push
 
+
+###OBS1: Se for editar um arquivo já existente, só precisa fazer o commit e o push, não precisa adicionar
 ###theEND
