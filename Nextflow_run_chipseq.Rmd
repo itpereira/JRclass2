@@ -1,0 +1,93 @@
+Running nextflow pipeline nf-core chipseq
+
+Files: Chipseq POLR2 (2 replicates + input)
+Pathway: /scratch/Shares/rinn/data (have all the files needed for the run)
+
+1. Configuration to the run
+
+##Go to your directory (where it will run the pipeline)
+##make a directory to put the config files for the run
+
+```{bash}
+
+cd /scratch/Shares/rinn/isabela
+mkdir first_chipseq
+cd first_chipseq
+```
+
+1.1 ##create a nextflow.config file
+
+```{bash}
+nano nextflow.config
+##paste
+process {
+  executor='slurm'
+  queue='short'
+  memory='32 GB'
+  maxForks=10
+}
+```
+
+1.2 ##create a file to get slurm to manage the job and the paths for netflow 
+(SBATCH organized all the instructions needed for slurm to scehdule the job; set the file paths for next flow)
+
+```{bash}
+nano run.sh
+##paste
+#!/bin/bash
+#SBATCH -p short
+#SBATCH --job-name=chipseq_Pol_test
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=isabela.pereira@colorado.edu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem=6gb
+#SBATCH --time=10:00:00
+#SBATCH --output=nextflow.out
+#SBATCH --error=nextflow.err
+
+pwd; hostname; date
+echo "Lets do chipseq yay"
+
+module load singularity/3.1.1
+
+nextflow run nf-core/chipseq -r 1.2.0 \     ####check which version for nextflow current version####
+-profile singularity \
+--single_end \
+--input design.csv \
+--fasta /Shares/rinn/data/genomes/GRCh38.p13.genome.fa \
+--gtf /Shares/rinn/data/genomes/gencode.v32.annotation.gtf \
+--macs_gsize 3.2e9 \
+--blacklist /scratch/Shares/rinn/data/hg38-blacklist.v2.bed \
+--email isabela.pereira@colorado.edu \
+-resume \
+-c nextflow.config
+
+date
+```
+
+1.3 ##create a design.csv file with the info about your data
+/ENCFF210PXS.fastq.gz --> replicate 1;single-read
+/ENCFF525AYL.fastq.gz --> replicate 2;single-read
+/ENCFF162ADN.fastq.gz --> input control
+
+```{bash}
+nano design.csv
+#paste
+group,replicate,fastq_1,fastq_2,antibody,control
+ASH2L,1,/scratch/Shares/rinn/data/ENCFF210PXS.fastq.gz,,ASH2L,ENCSR055XHN
+ASH2L,2,/scratch/Shares/rinn/data/ENCFF525AYL.fastq.gz,,ASH2L,ENCSR055XHN
+ENCSR055XHN,1,/scratch/Shares/rinn/data/ENCFF162ADN.fastq.gz,,,
+```
+
+2. Run the pipeline!
+
+```{bash} 
+sbatch run.sh
+```
+
+3. Checking run status
+
+```{bash}
+tail -f nextflow.out
+```
