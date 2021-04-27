@@ -51,7 +51,7 @@ echo "Lets do chipseq yay"
 
 module load singularity/3.1.1
 
-nextflow run nf-core/chipseq -r 1.2.0 \     ####check which version for nextflow current version####
+nextflow run nf-core/chipseq -r 1.1.0 \     ####check which version for nextflow current version####
 -profile singularity \
 --single_end \
 --input design.csv \
