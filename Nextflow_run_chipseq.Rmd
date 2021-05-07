@@ -55,8 +55,8 @@ nextflow run nf-core/chipseq -r 1.2.1 \     ####check which version for nextflow
 -profile singularity \
 --single_end \
 --input design.csv \
---fasta /Shares/rinn/data/genomes/GRCh38.p13.genome.fa \
---gtf /Shares/rinn/data/genomes/gencode.v32.annotation.gtf \
+--fasta /scratch/Shares/rinn/genomes/Homo_sapiens/Gencode/v32/GRCh38.p13.genome.fa \
+--gtf /scratch/Shares/rinn/genomes/Homo_sapiens/Gencode/v32/gencode.v32.annotation.gtf \
 --macs_gsize 3.2e9 \
 --blacklist /scratch/Shares/rinn/data/hg38-blacklist.v2.bed \
 --email isabela.pereira@colorado.edu \
