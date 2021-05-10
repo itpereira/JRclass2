@@ -1,0 +1,17 @@
+Basic commands on slurm (fiji/bash)
+
+```{bash}
+sbatch run.sh
+###run a serial of commands at run.sh file
+
+tail -f nextflow.out
+###see updates at nextflow running
+
+squeue -u ispe2910
+###list of jobs
+
+scancel JOBID
+###cancel a job (to see its ID, type squeue before)
+
+scancel -u ispe2910
+###cancel all jobs at my user
