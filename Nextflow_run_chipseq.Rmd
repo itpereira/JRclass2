@@ -92,5 +92,11 @@ sbatch run.sh
 tail -f nextflow.out
 ```
 
+4. See what jobs are running
+
+```
+squeue -u ispe2910
+```
+
 
 It worked!!!!! Yay
