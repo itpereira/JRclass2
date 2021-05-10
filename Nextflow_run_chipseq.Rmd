@@ -67,9 +67,12 @@ date
 ```
 
 1.3 ##create a design.csv file with the info about your data
+#put the correct path for each .fastq.gz file
 /ENCFF210PXS.fastq.gz --> replicate 1;single-read
 /ENCFF525AYL.fastq.gz --> replicate 2;single-read
 /ENCFF162ADN.fastq.gz --> input control
+##always coma (,) separated
+##leave it empty when there is not file, e.g., single read seq there is no fastq_2 read or the control (input) there's no control
 
 ```{bash}
 nano design.csv
@@ -78,6 +81,11 @@ group,replicate,fastq_1,fastq_2,antibody,control
 ASH2L,1,/scratch/Shares/rinn/data/ENCFF210PXS.fastq.gz,,ASH2L,ENCSR055XHN
 ASH2L,2,/scratch/Shares/rinn/data/ENCFF525AYL.fastq.gz,,ASH2L,ENCSR055XHN
 ENCSR055XHN,1,/scratch/Shares/rinn/data/ENCFF162ADN.fastq.gz,,,
+```
+
+##if the file is  tab separeted, you can use transmute to put it back to comma seperated
+```{bash} ##will write a new file coma separeted at design2.csv #remember to change at run.sh file the right input .csv name file
+cat design.csv | tr '\t' ',' > desgin2.csv
 ```
 
 2. Run the pipeline!
