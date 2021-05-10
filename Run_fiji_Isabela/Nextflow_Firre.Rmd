@@ -1,0 +1,73 @@
+Run nextflow pipeline in Christian data/firre_chip
+
+{bash} 
+
+1)Create a directory to this work
+```{bash} 
+mkdir firre_chipseq
+cd firre_chipseq
+```
+
+2)Create config file
+
+```
+nano nextflow.config
+##paste
+process {
+  executor='slurm'
+  queue='short'
+  memory='32 GB'
+  maxForks=10
+}
+```
+
+3)Creat run.sh file
+
+```
+nano run.sh
+##paste
+#!/bin/bash
+#SBATCH -p short
+#SBATCH --job-name=FIRR_KO_CHIPSEQ
+#SBATCH --mail-type=END,FAIL
+#SBATCH --mail-user=isabela.pereira@colorado.edu
+#SBATCH --nodes=1
+#SBATCH --ntasks=1
+#SBATCH --mem=10gb
+#SBATCH --time=18:00:00
+#SBATCH --output=nextflow.out
+#SBATCH --error=nextflow.err
+pwd; hostname; date
+echo "lets see if FIRRE affects PRC2"
+module load singularity/3.1.1
+nextflow run nf-core/chipseq -r 1.2.1 \
+-profile singularity \
+--input design.csv \
+--fasta /scratch/Shares/rinn/genomes/Mus_musculus/Gencode/M25/GRCm38.p6.genome.fa \
+--gtf /scratch/Shares/rinn/genomes/Mus_musculus/Gencode/M25/gencode.vM25.annotation.gtf$
+--macs_gsize 2.7e9 \
+--blacklist /scratch/Shares/rinn/genomes/Mus_musculus/Gencode/M25/mm10-blacklist.v2.bed
+--email isabela.pereira@colorado.edu \
+-resume \
+-c nextflow.config
+date
+```
+
+4) Create design file
+
+```
+group,replicate,fastq_1,fastq_2,antibody,control
+WT_CTL_0_input,1,/scratch/Shares/rinn/JR/FIRRE_KO_TG_K27me3_CHIPSEQ/data/fastq/JR2926_read1.fq.gz,/scratch/Shares/rinn/JR/FIRRE_KO_TG_K27me3_CHIPSEQ/data/fastq/JR2926_read2.fq.gz,,
+
+[...]
+
+```
+5) Run!
+ ```
+ sbatch run.sh
+ ```
+
+
+
+
+
