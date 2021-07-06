@@ -87,6 +87,7 @@ ENCSR055XHN,1,/scratch/Shares/rinn/data/ENCFF162ADN.fastq.gz,,,
 ```{bash} ##will write a new file coma separeted at design2.csv #remember to change at run.sh file the right input .csv name file
 cat design.csv | tr '\t' ',' > desgin2.csv
 ```
+##fiz tbm pelo excel, salvar como CSV (comma delimited)
 
 2. Run the pipeline!
 
